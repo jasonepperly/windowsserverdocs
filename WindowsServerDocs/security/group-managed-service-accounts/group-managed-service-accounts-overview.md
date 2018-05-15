@@ -22,16 +22,16 @@ This topic for the IT professional introduces the group Managed Service Account 
 
 
 ## <a name="BKMK_OVER"></a>Feature description
-Standalone Managed Service Accounts, which were introduced in Windows Server 2008 R2 and Windows 7, are managed domain accounts that provide automatic password management and simplified SPN management, including delegation of management to other administrators.
+The Standalone Managed Service Account (sMSA), introduced in Windows Server 2008 R2 and Windows 7, are managed domain accounts that provide automatic password management and simplified service principal name (SPN) management, including delegation of management to other administrators.
 
-The group Managed Service Account provides the same functionality within the domain but also extends that functionality over multiple servers. When connecting to a service hosted on a server farm, such as Network Load Balance, the authentication protocols supporting mutual authentication require that all instances of the services use the same principal. When group Managed Service Account are used as service principals, the Windows operating system manages the password for the account instead of relying on the administrator to manage the password.
+The group Managed Service Account (gMSA) provides the same functionality within the domain but also extends that functionality over multiple servers. When connecting to a service hosted on a server farm, such as Network Load Balance, the authentication protocols supporting mutual authentication require that all instances of the services use the same principal. When gMSA are used as service principals, the Windows operating system manages the password for the account instead of relying on the administrator to manage the password.
 
-The Microsoft Key Distribution Service \(kdssvc.dll\) provides the mechanism to securely obtain the latest key or a specific key with a key identifier for an Active Directory account. The Key Distribution Service shares a secret which is used to create keys for the account. These keys are periodically changed. For a group Managed Service Account the domain controller computes the password on the key provided by the Key Distribution Services, in addition to other attributes of the group Managed Service Account.  Member hosts can obtain the current and preceding password values by contacting a domain controller.
+The Microsoft Key Distribution Service \(kdssvc.dll\) provides the mechanism to securely obtain the latest key or a specific key with a key identifier for an Active Directory account. The Key Distribution Service shares a secret which is used to create keys for the account. These keys are periodically changed. For a gMSA, the domain controller computes the password on the key provided by the Key Distribution Services, in addition to other attributes of the gMSA.  Member hosts can obtain the current and preceding password values by contacting a domain controller.
 
 ## <a name="BKMK_APP"></a>Practical applications
-Group Managed Service Accounts provide a single identity solution for services running on a server farm, or on systems behind Network Load Balance. By providing a group MSA solution, services can be configured for the new group MSA principal and the password management is handled by Windows.
+gMSAs provide a single identity solution for services running on a server farm, or on systems behind Network Load Balance. By providing a gMSA solution, services can be configured for the new gMSA principal and the password management is handled by Windows.
 
-Using a group Managed Service Account, services or service administrators do not need to manage password synchronization between service instances. The group Managed Service Account supports hosts that are kept offline for an extended time period, and management of member hosts for all instances of a service. This means you can deploy a server farm that supports a single identity to which existing client computers can authenticate without knowing the instance of the service to which they are connecting.
+Using a gMSA, services or service administrators do not need to manage password synchronization between service instances. The gMSA supports hosts that are kept offline for an extended time period, and management of member hosts for all instances of a service. This means you can deploy a server farm that supports a single identity to which existing client computers can authenticate without knowing the instance of the service to which they are connecting.
 
 Failover clusters do not support gMSAs. However, services that run on top of the Cluster service can use a gMSA or a sMSA if they are a Windows service, an App pool, a scheduled task, or natively support gMSA or sMSA.
 
@@ -39,7 +39,7 @@ Failover clusters do not support gMSAs. However, services that run on top of the
 
 A 64\-bit architecture is required to run the Windows PowerShell commands which are used to administer group Managed Service Accounts.
 
-A managed service account is dependent upon Kerberos supported encryption types.When a client computer authenticates to a server using Kerberos the DC creates a Kerberos service ticket protected with encryption both the DC and server supports. The DC uses the account's msDS\-SupportedEncryptionTypes attribute to determine what encryption the server supports and, if there is no attribute, it assumes the client computer does not support stronger encryption types. If the host is configured to not support RC4, then authentication will always fail. For this reason, AES should always be explicitly configured for MSAs.
+A managed service account (MSA) is dependent upon Kerberos supported encryption types.When a client computer authenticates to a server using Kerberos the DC creates a Kerberos service ticket protected with encryption both the DC and server supports. The DC uses the account's msDS\-SupportedEncryptionTypes attribute to determine what encryption the server supports and, if there is no attribute, it assumes the client computer does not support stronger encryption types. If the host is configured to not support RC4, then authentication will always fail. For this reason, AES should always be explicitly configured for MSAs.
 
 > [!NOTE]
 > Beginning with Windows Server 2008 R2, DES is disabled by default. For more information about supported encryption types, see [Changes in Kerberos Authentication](https://technet.microsoft.com/library/dd560670(WS.10).aspx).
@@ -47,7 +47,7 @@ A managed service account is dependent upon Kerberos supported encryption types.
 Group Managed Service Accounts are not applicable to Windows operating systems prior to Windows Server 2012.
 
 ## Server Manager information
-There are no configuration steps necessary to implement MSA and group MSA using Server Manager or the Install\-WindowsFeature cmdlet.
+There are no configuration steps necessary to implement MSA and gMSA using Server Manager or the Install\-WindowsFeature cmdlet.
 
 ## <a name="BKMK_LINKS"></a>See also
 The following table provides links to additional resources related to Managed Service Accounts and group Managed Service Accounts.
